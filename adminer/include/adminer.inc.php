@@ -39,7 +39,7 @@ class Adminer {
 	function bruteForceKey() {
 		return $_SERVER["REMOTE_ADDR"];
 	}
-	
+
 	/** Get server name displayed in breadcrumbs
 	* @param string
 	* @return string HTML code or null
@@ -118,8 +118,9 @@ class Adminer {
 	*/
 	function loginForm() {
 		global $drivers;
+        $defaultDriver = isset($_GET['driver']) ? $_GET['driver'] : DRIVER;
 		echo "<table cellspacing='0' class='layout'>\n";
-		echo $this->loginFormField('driver', '<tr><th>' . lang('System') . '<td>', html_select("auth[driver]", $drivers, DRIVER, "loginDriver(this);") . "\n");
+		echo $this->loginFormField('driver', '<tr><th>' . lang('System') . '<td>', html_select("auth[driver]", $drivers, $defaultDriver, "loginDriver(this);") . "\n");
 		echo $this->loginFormField('server', '<tr><th>' . lang('Server') . '<td>', '<input name="auth[server]" value="' . h(SERVER) . '" title="hostname[:port]" placeholder="localhost" autocapitalize="off">' . "\n");
 		echo $this->loginFormField('username', '<tr><th>' . lang('Username') . '<td>', '<input name="auth[username]" id="username" value="' . h($_GET["username"]) . '" autocomplete="username" autocapitalize="off">' . script("focus(qs('#username')); qs('#username').form['auth[driver]'].onchange();"));
 		echo $this->loginFormField('password', '<tr><th>' . lang('Password') . '<td>', '<input name="auth[password]" id="password" value="' . h($_GET["password"]) . '" autocomplete="password" autocapitalize="off">' . "\n");
@@ -128,7 +129,7 @@ class Adminer {
 		echo "<p><input type='submit' value='" . lang('Login') . "'>\n";
 		echo checkbox("auth[permanent]", 1, $_COOKIE["adminer_permanent"], lang('Permanent login')) . "\n";
 	}
-	
+
 	/** Get login form field
 	* @param string
 	* @param string HTML
@@ -480,7 +481,7 @@ class Adminer {
 		echo "</script>\n";
 		echo "</div></fieldset>\n";
 	}
-	
+
 	/** Print command box in select
 	* @return bool whether to print default commands
 	*/
